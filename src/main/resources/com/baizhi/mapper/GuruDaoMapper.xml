@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.baizhi.dao.GuruDao">
+    <select id="query" resultType="Guru">
+        select id,name,heasPic,sex
+        from guru
+    </select>
+
+    <select id="findByPage" resultType="Guru">
+        select id,name,heasPic,sex
+        from guru limit #{start},#{rows}
+    </select>
+
+    <!--查询总记录数-->
+    <select id="findTotals" resultType="long">
+        select count(id) from guru
+    </select>
+
+    <insert id="insert" parameterType="Guru">
+        insert into guru
+        values (#{id},#{name},#{heasPic},#{sex})
+    </insert>
+
+    <delete id="delete" parameterType="String">
+        delete from guru where id=#{id}
+
+    </delete>
+
+
+
+</mapper>

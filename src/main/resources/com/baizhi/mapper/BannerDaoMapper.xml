@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.baizhi.dao.BannerDao">
+    <select id="query" resultType="Banner">
+        select id,title,imgPath,descr,status,creattime
+        from banner
+    </select>
+
+    <insert id="insert" parameterType="Banner">
+        insert into banner
+        values (#{id},#{title},#{imgPath},#{descr},#{status},#{creattime})
+    </insert>
+
+    <delete id="delete" parameterType="String">
+        delete from banner where id=#{id}
+
+    </delete>
+
+    <update id="update" parameterType="Banner">
+        update banner set title=#{title},imgPath=#{imgPath},descr=#{descr},status=#{status},creattime=#{creattime}
+        where id=#{id}
+    </update>
+
+    <select id="queryOne" resultType="Banner" parameterType="String">
+        select id,title,imgPath,descr,status,creattime
+        from banner
+        where id=#{id}
+    </select>
+
+    <delete id="deleteMany">
+        delete from banner where id in
+        <foreach collection="array" item="id" index="id"
+                 open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+    <!--查询当前页数据-->
+    <select id="findByPage" resultType="Banner">
+        select id,title,imgPath,descr,status,creattime from banner limit #{start},#{rows}
+    </select>
+    <!--查询总记录数-->
+    <select id="findTotals" resultType="long">
+        select count(id) from banner
+    </select>
+
+</mapper>

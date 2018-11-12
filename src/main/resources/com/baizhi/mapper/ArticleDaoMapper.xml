@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.baizhi.dao.ArticleDao">
+
+    <resultMap id="ArticleMap" type="Article">
+        <id property="id" column="aid"/>
+        <result property="title" column="title"/>
+        <result property="imgPath" column="imgPath"/>
+        <result property="content" column="content"/>
+        <result property="publishDate" column="publishDate"/>
+        <result property="guru_id" column="guru_id"/>
+
+        <association property="guru" javaType="Guru">
+            <id property="id" column="gid"/>
+            <result property="name" column="name"/>
+            <result property="heasPic" column="heasPic"/>
+            <result property="sex" column="sex"/>
+
+        </association>
+
+    </resultMap>
+
+    <select id="query" resultMap="ArticleMap">
+        select a.id aid,a.title,a.imgPath,a.content,a.publishDate,a.guru_id,g.id gid,g.name,g.heasPic,g.sex
+        from article a inner join guru g
+        where a.guru_id=g.id
+    </select>
+
+    <select id="findByPage" resultMap="ArticleMap">
+        select a.id aid,a.title,a.imgPath,a.content,a.publishDate,a.guru_id,g.id gid,g.name,g.heasPic,g.sex
+        from article a inner join guru g
+        where a.guru_id=g.id limit #{start},#{rows}
+    </select>
+
+    <!--查询总记录数-->
+    <select id="findTotals" resultType="long">
+        select count(id) from article
+    </select>
+
+    <delete id="delete" parameterType="String">
+        delete from article where id=#{id}
+    </delete>
+
+
+
+    <insert id="insert">
+        insert into article
+        values (#{id},#{title},#{imgPath},#{content},#{publishDate},#{guru_id})
+    </insert>
+
+</mapper>
